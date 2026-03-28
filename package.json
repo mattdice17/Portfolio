@@ -1,0 +1,339 @@
+import { useState } from "react";
+
+const pages = {
+  home: "Home",
+  work: "Work",
+  "case-a": "The Pit Stop Lounge",
+  "case-b": "Portfolio Website",
+  "case-c": "The Starting Grid",
+  about: "About",
+  contact: "Contact",
+};
+
+const CaseStudySection = ({ number, title, points, children }) => (
+  <div style={{ marginBottom: 40 }}>
+    <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 12 }}>
+      <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 13, color: "#e10600", fontWeight: 500 }}>{number}</span>
+      <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 20, fontWeight: 700, color: "#111", margin: 0 }}>{title}</h3>
+      <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#999", marginLeft: "auto" }}>{points} pts</span>
+    </div>
+    <div style={{ paddingLeft: 24, borderLeft: "2px solid #f0f0f0" }}>{children}</div>
+  </div>
+);
+
+const P = ({ children }) => <p style={{ fontSize: 15, lineHeight: 1.75, color: "#444", margin: "0 0 14px" }}>{children}</p>;
+
+const Tag = ({ children }) => (
+  <span style={{ display: "inline-block", padding: "4px 12px", background: "#f5f5f5", borderRadius: 20, fontSize: 12, fontFamily: "'DM Mono', monospace", color: "#666", marginRight: 6, marginBottom: 6 }}>{children}</span>
+);
+
+const DetailRow = ({ label, value }) => (
+  <div style={{ display: "flex", gap: 12, marginBottom: 8 }}>
+    <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#999", minWidth: 100, textTransform: "uppercase", letterSpacing: 1 }}>{label}</span>
+    <span style={{ fontSize: 14, color: "#333" }}>{value}</span>
+  </div>
+);
+
+export default function Portfolio() {
+  const [page, setPage] = useState("home");
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const nav = (p) => { setPage(p); setMenuOpen(false); window.scrollTo(0, 0); };
+
+  return (
+    <div style={{ fontFamily: "'DM Sans', sans-serif", background: "#fafafa", minHeight: "100vh", color: "#222" }}>
+      <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+      {/* NAV */}
+      <nav style={{ position: "sticky", top: 0, zIndex: 100, background: "rgba(250,250,250,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid #eee", padding: "0 clamp(20px, 5vw, 60px)" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: 60, maxWidth: 1200, margin: "0 auto" }}>
+          <button onClick={() => nav("home")} style={{ all: "unset", cursor: "pointer", fontFamily: "'Syne', sans-serif", fontWeight: 800, fontSize: 15, letterSpacing: 1, textTransform: "uppercase" }}>
+            <span style={{ color: "#e10600" }}>Matt Dice</span> <span style={{ color: "#999", fontWeight: 400 }}>/ Web & UI Designer</span>
+          </button>
+          <div style={{ display: "flex", gap: 24 }}>
+            {["home", "work", "about", "contact"].map(p => (
+              <button key={p} onClick={() => nav(p)} style={{ all: "unset", cursor: "pointer", fontFamily: "'DM Mono', monospace", fontSize: 12, letterSpacing: 1, textTransform: "uppercase", color: page === p ? "#e10600" : "#666", borderBottom: page === p ? "2px solid #e10600" : "2px solid transparent", paddingBottom: 2, transition: "all 0.2s" }}>
+                {p}
+              </button>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
+
+        {/* ===== HOME ===== */}
+        {page === "home" && (
+          <div>
+            <div style={{ padding: "80px 0 60px", maxWidth: 700 }}>
+              <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#e10600", letterSpacing: 2, textTransform: "uppercase", marginBottom: 16 }}>Portfolio 2026</p>
+              <h1 style={{ fontFamily: "'Syne', sans-serif", fontSize: "clamp(36px, 6vw, 56px)", fontWeight: 800, lineHeight: 1.1, margin: "0 0 24px", color: "#111" }}>
+                Designing digital experiences that feel as good as they look.
+              </h1>
+              <p style={{ fontSize: 17, lineHeight: 1.8, color: "#555", maxWidth: 560 }}>
+                Web & UI Designer based in Toronto. I create clean, intuitive, and user-centered digital experiences — from wireframes to final production.
+              </p>
+              <button onClick={() => nav("work")} style={{ marginTop: 32, padding: "14px 32px", background: "#111", color: "#fff", border: "none", borderRadius: 6, fontFamily: "'DM Mono', monospace", fontSize: 13, letterSpacing: 1, cursor: "pointer", transition: "all 0.2s" }}>
+                VIEW MY WORK →
+              </button>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 20, paddingBottom: 80 }}>
+              {[
+                { id: "case-a", title: "The Pit Stop Lounge", type: "HTML/CSS Website", color: "#1a1a1a", accent: "#e10600" },
+                { id: "case-b", title: "Portfolio Website", type: "Wix Portfolio", color: "#f0f0f0", accent: "#111" },
+                { id: "case-c", title: "The Starting Grid", type: "E-Commerce Store", color: "#f5ebe0", accent: "#333" },
+              ].map(p => (
+                <button key={p.id} onClick={() => nav(p.id)} style={{ all: "unset", cursor: "pointer", borderRadius: 12, overflow: "hidden", transition: "transform 0.3s", background: "#fff", border: "1px solid #eee" }}>
+                  <div style={{ height: 180, background: p.color, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 24, color: p.accent === "#111" ? "#111" : "#fff" }}>{p.title}</span>
+                  </div>
+                  <div style={{ padding: 20 }}>
+                    <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#999", textTransform: "uppercase", letterSpacing: 1, margin: "0 0 4px" }}>{p.type}</p>
+                    <p style={{ fontSize: 14, color: "#333", margin: 0 }}>View Case Study →</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ===== WORK ===== */}
+        {page === "work" && (
+          <div style={{ padding: "60px 0 80px" }}>
+            <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 36, fontWeight: 800, marginBottom: 12 }}>Work</h2>
+            <P>Here's a selection of my recent work. Each project showcases a different aspect of my design process — from concept and research through to final production. Click on any project to view the full case study.</P>
+            <div style={{ display: "grid", gap: 24, marginTop: 40 }}>
+              {[
+                { id: "case-a", num: "01", title: "The Pit Stop Lounge", type: "HTML/CSS Website", desc: "An F1-themed restaurant website built with hand-coded HTML and CSS. Features a dark motorsport aesthetic with racing typography.", bg: "#1a1a1a", fg: "#fff" },
+                { id: "case-b", num: "02", title: "Portfolio Website", type: "Wix Portfolio", desc: "A personal portfolio website designed and built on Wix to showcase my UI/UX design work. Clean, modern, and fully responsive.", bg: "#f0f0f0", fg: "#111" },
+                { id: "case-c", num: "03", title: "The Starting Grid", type: "E-Commerce Store", desc: "A fully functional online store selling custom-designed Formula 1 soccer jerseys at thestartinggrid.ca.", bg: "#f5ebe0", fg: "#333" },
+              ].map(p => (
+                <button key={p.id} onClick={() => nav(p.id)} style={{ all: "unset", cursor: "pointer", display: "grid", gridTemplateColumns: "1fr 1fr", borderRadius: 12, overflow: "hidden", border: "1px solid #eee", background: "#fff", minHeight: 200, transition: "transform 0.2s" }}>
+                  <div style={{ background: p.bg, display: "flex", alignItems: "center", justifyContent: "center", padding: 40 }}>
+                    <span style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: 28, color: p.fg }}>{p.num}</span>
+                  </div>
+                  <div style={{ padding: 32, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#e10600", letterSpacing: 1, textTransform: "uppercase", margin: "0 0 8px" }}>{p.type}</p>
+                    <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 22, fontWeight: 700, margin: "0 0 10px", color: "#111" }}>{p.title}</h3>
+                    <p style={{ fontSize: 14, color: "#666", margin: 0, lineHeight: 1.6 }}>{p.desc}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ===== CASE STUDY A: PIT STOP LOUNGE ===== */}
+        {page === "case-a" && (
+          <div style={{ padding: "60px 0 80px", maxWidth: 760 }}>
+            <button onClick={() => nav("work")} style={{ all: "unset", cursor: "pointer", fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#999", marginBottom: 24, display: "block" }}>← Back to Work</button>
+            <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#e10600", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>Case Study A — 20 Marks</p>
+            <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 40, fontWeight: 800, marginBottom: 16, lineHeight: 1.1 }}>The Pit Stop Lounge</h2>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 40 }}>
+              <Tag>HTML</Tag><Tag>CSS</Tag><Tag>VS Code</Tag><Tag>F1 Themed</Tag>
+            </div>
+
+            <div style={{ background: "#1a1a1a", borderRadius: 12, padding: 40, marginBottom: 40, textAlign: "center" }}>
+              <span style={{ fontFamily: "'Syne', sans-serif", fontSize: 28, fontWeight: 700, color: "#e10600" }}>THE PIT STOP LOUNGE</span>
+              <p style={{ color: "#666", fontFamily: "'DM Mono', monospace", fontSize: 11, marginTop: 8 }}>F1-themed restaurant website</p>
+            </div>
+
+            <DetailRow label="Role" value="Web Designer & Front-End Developer" />
+            <DetailRow label="Type" value="HTML/CSS Website" />
+            <DetailRow label="Tools" value="HTML, CSS, VS Code" />
+
+            <div style={{ marginTop: 40 }}>
+              <CaseStudySection number="01" title="Final Production" points="5">
+                <P>The Pit Stop Lounge is a fully coded, F1-themed restaurant website. The final production features a dark motorsport aesthetic with bold red accents, the Formula 1 logo, racing-style typography, and a checkered flag footer. Built entirely with hand-coded HTML and CSS.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="02" title="About the Production" points="3">
+                <h4 style={{ fontSize: 14, fontWeight: 600, margin: "0 0 6px", color: "#111" }}>Brief Description</h4>
+                <P>This project started as a class exercise based on the Black Goose Bistro HTML template. The assignment required customizing the template by changing the background color, header image, heading colors, and text content. I took it further by completely reimagining the concept as an F1-themed dining lounge.</P>
+                <h4 style={{ fontSize: 14, fontWeight: 600, margin: "16px 0 6px", color: "#111" }}>Creative Problem</h4>
+                <P>The original template was a generic bistro website with a basic layout. The challenge was to take a simple HTML/CSS structure and elevate it into something visually striking — while staying within the constraints of basic HTML and CSS.</P>
+                <h4 style={{ fontSize: 14, fontWeight: 600, margin: "16px 0 6px", color: "#111" }}>Solution</h4>
+                <P>I developed a complete F1 racing visual identity: a dark background (#1a1a1a) paired with the iconic F1 red (#E10600), the Formula 1 logo inverted to white, and rewritten content with sections like "Race Day Catering" and themed location hours.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="03" title="Title / Role" points="2">
+                <P><strong>Role:</strong> Web Designer & Front-End Developer. Responsible for concept development, visual design, HTML/CSS coding, typography selection, color palette creation, and content writing.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="04" title="Process & Development" points="5">
+                <P>Started with the original Black Goose Bistro HTML template. Identified the F1/motorsport theme as a creative direction. Selected a dark color scheme with F1 red as the accent. Replaced the goose logo with the Formula 1 logo. Rewrote all text content to match the racing lounge concept. Tested for readability and visual consistency.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="05" title="Applications or Results" points="3">
+                <P>The final website demonstrates how a simple HTML/CSS template can be completely transformed through thoughtful design choices. Showcases skills in color theory, typography, content strategy, and front-end development.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="06" title="Credits" points="2">
+                <P>Original template: Black Goose Bistro (class exercise). Formula 1 logo: Formula One World Championship Limited. Font: System sans-serif. Design & Development: Matt Dice.</P>
+              </CaseStudySection>
+            </div>
+          </div>
+        )}
+
+        {/* ===== CASE STUDY B: PORTFOLIO ===== */}
+        {page === "case-b" && (
+          <div style={{ padding: "60px 0 80px", maxWidth: 760 }}>
+            <button onClick={() => nav("work")} style={{ all: "unset", cursor: "pointer", fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#999", marginBottom: 24, display: "block" }}>← Back to Work</button>
+            <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#e10600", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>Case Study B — 20 Marks</p>
+            <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 40, fontWeight: 800, marginBottom: 16, lineHeight: 1.1 }}>Portfolio Website</h2>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 40 }}>
+              <Tag>Wix</Tag><Tag>Portfolio App</Tag><Tag>7 Pages</Tag><Tag>Responsive</Tag>
+            </div>
+
+            <div style={{ background: "#f0f0f0", borderRadius: 12, padding: 40, marginBottom: 40, textAlign: "center" }}>
+              <span style={{ fontFamily: "'Syne', sans-serif", fontSize: 28, fontWeight: 700, color: "#111" }}>PORTFOLIO WEBSITE</span>
+              <p style={{ color: "#888", fontFamily: "'DM Mono', monospace", fontSize: 11, marginTop: 8 }}>Personal portfolio built on Wix</p>
+            </div>
+
+            <DetailRow label="Role" value="Web Designer" />
+            <DetailRow label="Type" value="Portfolio Website" />
+            <DetailRow label="Tools" value="Wix, Wix Portfolio App" />
+            <DetailRow label="Pages" value="Home, Work, Case Study A/B/C, About, Contact" />
+
+            <div style={{ marginTop: 40 }}>
+              <CaseStudySection number="01" title="Final Production" points="5">
+                <P>A 7-page personal portfolio website built on Wix using the UX Designer template. Showcases three design projects in case study format, with dedicated pages for Home, Work, three case studies, About, and Contact.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="02" title="About the Production" points="3">
+                <h4 style={{ fontSize: 14, fontWeight: 600, margin: "0 0 6px", color: "#111" }}>Brief Description</h4>
+                <P>A comprehensive portfolio showcase designed as both a class deliverable and a real-world professional portfolio for sharing with potential employers and creative studios.</P>
+                <h4 style={{ fontSize: 14, fontWeight: 600, margin: "16px 0 6px", color: "#111" }}>Creative Problem</h4>
+                <P>Needed a professional online presence that could effectively present design projects with full case study detail — not just screenshots, but the complete story including problem, process, and results.</P>
+                <h4 style={{ fontSize: 14, fontWeight: 600, margin: "16px 0 6px", color: "#111" }}>Solution</h4>
+                <P>Selected the UX Designer template for its clean aesthetic and customized it with a consistent case study structure across all project pages: Final Production, About, Role, Process, Results, and Credits.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="03" title="Title / Role" points="2">
+                <P><strong>Role:</strong> Web Designer. Responsible for template selection, layout customization, content strategy, page structure, and all written content.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="04" title="Process & Development" points="5">
+                <P>Reviewed the assignment rubric and identified the 7-page structure. Browsed Wix templates and selected UX Designer for its portfolio layout. Installed the Portfolio app and created project entries. Customized each page with content following the case study format. Tested navigation across all pages.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="05" title="Applications or Results" points="3">
+                <P>The portfolio serves as a living, functional website demonstrating skills in site architecture, content strategy, visual hierarchy, and responsive design — essential for a UI/UX designer role.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="06" title="Credits" points="2">
+                <P>Template: UX Designer by Wix. Platform: Wix.com. Content and projects: Matt Dice. Project setup assistance: Claude AI by Anthropic.</P>
+              </CaseStudySection>
+            </div>
+          </div>
+        )}
+
+        {/* ===== CASE STUDY C: THE STARTING GRID ===== */}
+        {page === "case-c" && (
+          <div style={{ padding: "60px 0 80px", maxWidth: 760 }}>
+            <button onClick={() => nav("work")} style={{ all: "unset", cursor: "pointer", fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#999", marginBottom: 24, display: "block" }}>← Back to Work</button>
+            <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#e10600", letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>Case Study C — 20 Marks</p>
+            <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 40, fontWeight: 800, marginBottom: 16, lineHeight: 1.1 }}>The Starting Grid</h2>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 40 }}>
+              <Tag>Shopify</Tag><Tag>Product Design</Tag><Tag>E-Commerce</Tag><Tag>F1</Tag>
+            </div>
+
+            <div style={{ background: "#f5ebe0", borderRadius: 12, padding: 40, marginBottom: 40, textAlign: "center" }}>
+              <span style={{ fontFamily: "'Syne', sans-serif", fontSize: 28, fontWeight: 700, color: "#333" }}>THE STARTING GRID</span>
+              <p style={{ color: "#888", fontFamily: "'DM Mono', monospace", fontSize: 11, marginTop: 8 }}>thestartinggrid.ca — F1 soccer jersey store</p>
+            </div>
+
+            <DetailRow label="Role" value="Web Designer & Product Designer" />
+            <DetailRow label="Type" value="E-Commerce Store" />
+            <DetailRow label="Tools" value="Shopify, Product Design" />
+            <DetailRow label="Live" value="thestartinggrid.ca" />
+
+            <div style={{ marginTop: 40 }}>
+              <CaseStudySection number="01" title="Final Production" points="5">
+                <P>The Starting Grid is a fully functional e-commerce store at thestartinggrid.ca, selling custom-designed Formula 1 soccer jerseys. Features a clean product catalog with filtering, a warm minimalist color palette, and a mobile-first responsive design.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="02" title="About the Production" points="3">
+                <h4 style={{ fontSize: 14, fontWeight: 600, margin: "0 0 6px", color: "#111" }}>Brief Description</h4>
+                <P>An online merchandise store built around a unique concept: Formula 1-themed soccer jerseys. Each jersey combines F1 team branding (Alpine, Aston Martin, etc.) with football jersey styling — a crossover product for fans of both sports.</P>
+                <h4 style={{ fontSize: 14, fontWeight: 600, margin: "16px 0 6px", color: "#111" }}>Creative Problem</h4>
+                <P>No existing product merged Formula 1 team identities with soccer jersey design. I needed to design both the products themselves and the complete e-commerce experience from scratch.</P>
+                <h4 style={{ fontSize: 14, fontWeight: 600, margin: "16px 0 6px", color: "#111" }}>Solution</h4>
+                <P>Designed custom F1-themed football jerseys for multiple teams and built a complete e-commerce store with warm minimalist design, filterable catalog, clean product cards with pricing, and simple navigation.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="03" title="Title / Role" points="2">
+                <P><strong>Role:</strong> Web Designer & Product Designer. Responsible for product concept, jersey design, brand identity, e-commerce site design, product photography, and content creation.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="04" title="Process & Development" points="5">
+                <P>Identified the gap between F1 merchandise and soccer jersey culture. Designed custom jerseys for Alpine (Colapinto #43, Gasly #10), Aston Martin, and more. Developed "The Starting Grid" brand. Selected a warm cream palette to contrast with bold jersey designs. Built the store with catalog, filtering, and mobile-responsive layout.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="05" title="Applications or Results" points="3">
+                <P>The Starting Grid is a live, functioning store at thestartinggrid.ca. It demonstrates the full product design pipeline — from concept and product design through to brand identity and e-commerce implementation.</P>
+              </CaseStudySection>
+
+              <CaseStudySection number="06" title="Credits" points="2">
+                <P>Product Design & Jersey Concepts: Matt Dice. Website Design & Development: Matt Dice. F1 team logos: respective Formula 1 teams (used for fan merchandise). Platform: Shopify.</P>
+              </CaseStudySection>
+            </div>
+          </div>
+        )}
+
+        {/* ===== ABOUT ===== */}
+        {page === "about" && (
+          <div style={{ padding: "60px 0 80px", maxWidth: 700 }}>
+            <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 40, fontWeight: 800, marginBottom: 24 }}>About</h2>
+            <P>I'm a Web and UI Designer based in Toronto, currently studying at Toronto Metropolitan University. I'm passionate about creating digital experiences that are clean, intuitive, and user-focused. My work spans HTML/CSS development, UI design, e-commerce, and brand identity — with a particular love for motorsport-inspired projects.</P>
+
+            <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 20, fontWeight: 700, marginTop: 32, marginBottom: 16 }}>Skills</h3>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {["HTML & CSS", "UI/UX Design", "Wix", "Shopify", "Brand Identity", "Product Design", "Figma", "Responsive Design"].map(s => <Tag key={s}>{s}</Tag>)}
+            </div>
+
+            <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 20, fontWeight: 700, marginTop: 32, marginBottom: 16 }}>Interests</h3>
+            <P>Outside of design, I'm a big Formula 1 fan — which has directly inspired projects like The Pit Stop Lounge and The Starting Grid. I'm drawn to the intersection of sports, culture, and design.</P>
+
+            <h3 style={{ fontFamily: "'Syne', sans-serif", fontSize: 20, fontWeight: 700, marginTop: 32, marginBottom: 16 }}>Career Goal</h3>
+            <P>I'm looking to join a creative studio or startup in Toronto where I can contribute to meaningful digital projects. My target company is Jacknife (jacknife.ca) — a full-service branding and design agency known for bold, insight-driven work.</P>
+          </div>
+        )}
+
+        {/* ===== CONTACT ===== */}
+        {page === "contact" && (
+          <div style={{ padding: "60px 0 80px", maxWidth: 600 }}>
+            <h2 style={{ fontFamily: "'Syne', sans-serif", fontSize: 40, fontWeight: 800, marginBottom: 12 }}>Let's Work Together</h2>
+            <P>Have a project in mind, a question about my work, or just want to say hi? I'd love to hear from you.</P>
+
+            <div style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 16 }}>
+              {["Name", "Email", "Subject"].map(f => (
+                <div key={f}>
+                  <label style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#999", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>{f}</label>
+                  <input type="text" placeholder={f} style={{ width: "100%", padding: "12px 16px", border: "1px solid #ddd", borderRadius: 8, fontSize: 14, fontFamily: "'DM Sans', sans-serif", outline: "none", boxSizing: "border-box" }} />
+                </div>
+              ))}
+              <div>
+                <label style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#999", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Message</label>
+                <textarea rows={5} placeholder="Your message..." style={{ width: "100%", padding: "12px 16px", border: "1px solid #ddd", borderRadius: 8, fontSize: 14, fontFamily: "'DM Sans', sans-serif", outline: "none", resize: "vertical", boxSizing: "border-box" }} />
+              </div>
+              <button style={{ padding: "14px 32px", background: "#111", color: "#fff", border: "none", borderRadius: 8, fontFamily: "'DM Mono', monospace", fontSize: 13, letterSpacing: 1, cursor: "pointer", alignSelf: "flex-start" }}>SEND MESSAGE</button>
+            </div>
+
+            <div style={{ marginTop: 40, paddingTop: 24, borderTop: "1px solid #eee" }}>
+              <DetailRow label="Email" value="[your.email@torontomu.ca]" />
+              <DetailRow label="LinkedIn" value="[linkedin.com/in/yourprofile]" />
+              <DetailRow label="Location" value="Toronto, Ontario, Canada" />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* FOOTER */}
+      <footer style={{ borderTop: "1px solid #eee", padding: "24px clamp(20px, 5vw, 60px)", textAlign: "center" }}>
+        <p style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#999" }}>© 2026 Matt Dice — Web & UI Design Portfolio</p>
+      </footer>
+    </div>
+  );
+}
